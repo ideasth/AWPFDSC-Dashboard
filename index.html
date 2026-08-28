@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AWPFDSC — Australian Women's Pelvic Floor Demand and Services Comparison</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root{
+  --bg:#f6f7f9; --panel:#ffffff; --ink:#14213d; --ink-soft:#4b5675; --line:#e2e6ee;
+  --teal:#0f766e; --teal-l:#5eada6; --plum:#7c3f6d; --amber:#b45309; --red:#9f1239;
+  --blue:#1d4ed8; --slate:#64748b;
+  --shadow:0 1px 2px rgba(20,33,61,.06),0 4px 14px rgba(20,33,61,.05);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;}
+header{background:linear-gradient(135deg,#0f766e 0%,#155e75 55%,#1e3a5f 100%);color:#fff;padding:26px 28px 22px}
+header .wrap,main{max-width:1240px;margin:0 auto}
+header h1{margin:0 0 4px;font-size:23px;letter-spacing:-.2px;font-weight:650}
+header p.sub{margin:0;font-size:14px;color:#cfe6e3;max-width:900px}
+header .meta{margin-top:12px;font-size:12px;color:#a9cfcb;display:flex;flex-wrap:wrap;gap:6px 18px}
+nav{background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20;box-shadow:var(--shadow)}
+nav .wrap{max-width:1240px;margin:0 auto;display:flex;gap:2px;overflow-x:auto;padding:0 18px}
+nav button{appearance:none;background:none;border:0;border-bottom:3px solid transparent;color:var(--ink-soft);
+  padding:14px 15px;font:600 13.5px/1 inherit;cursor:pointer;white-space:nowrap}
+nav button:hover{color:var(--ink)}
+nav button[aria-selected="true"]{color:var(--teal);border-bottom-color:var(--teal)}
+main{padding:24px 18px 70px}
+section[role=tabpanel]{display:none}
+section[role=tabpanel].on{display:block}
+h2{font-size:19px;margin:4px 0 6px;letter-spacing:-.2px}
+h3{font-size:15px;margin:0 0 12px;color:var(--ink)}
+p.lede{margin:0 0 20px;color:var(--ink-soft);max-width:940px;font-size:14.5px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;box-shadow:var(--shadow);margin-bottom:18px}
+.grid{display:grid;gap:16px;margin-bottom:18px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(400px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(246px,1fr))}
+.kpi{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--teal);border-radius:10px;
+  padding:15px 17px;box-shadow:var(--shadow)}
+.kpi .lbl{font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--slate);font-weight:650}
+.kpi .val{font-size:27px;font-weight:680;letter-spacing:-.6px;margin:5px 0 3px;font-variant-numeric:tabular-nums}
+.kpi .note{font-size:12px;color:var(--ink-soft);line-height:1.4}
+.kpi.plum{border-left-color:var(--plum)} .kpi.amber{border-left-color:var(--amber)}
+.kpi.red{border-left-color:var(--red)} .kpi.blue{border-left-color:var(--blue)}
+.chartbox{position:relative;height:320px}
+.chartbox.tall{height:400px}
+table{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+th,td{padding:8px 10px;text-align:right;border-bottom:1px solid var(--line)}
+th:first-child,td:first-child{text-align:left;font-variant-numeric:normal}
+table.left th,table.left td{text-align:left}
+table.left td:first-child{white-space:nowrap;font-weight:600}
+thead th{background:#eef2f6;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--slate);
+  font-weight:650;border-bottom:2px solid var(--line);vertical-align:bottom}
+tbody tr:hover{background:#f8fafc}
+tfoot td{font-weight:680;background:#f4f7f9;border-top:2px solid var(--line);border-bottom:0}
+.tblwrap{overflow-x:auto}
+.caveat{background:#fffbeb;border:1px solid #fde68a;border-left:4px solid var(--amber);border-radius:8px;
+  padding:13px 16px;font-size:13.2px;color:#78350f;margin:0 0 18px}
+.caveat strong{color:#7c2d12}
+.pill{display:inline-block;padding:2px 9px;border-radius:99px;font-size:11px;font-weight:650;letter-spacing:.02em}
+.pill.yes{background:#d1fae5;color:#065f46}
+.pill.part{background:#fef3c7;color:#92400e}
+.pill.hist{background:#e0e7ff;color:#3730a3}
+.pill.no{background:#fee2e2;color:#991b1b}
+.bars{display:flex;flex-direction:column;gap:9px;margin-top:4px}
+.bar{display:grid;grid-template-columns:172px 1fr 124px;align-items:center;gap:11px;font-size:12.5px}
+.bar>span:first-child{line-height:1.25}
+.bar .track{background:#eef2f6;border-radius:5px;height:19px;overflow:hidden}
+.bar .fill{height:100%;border-radius:5px}
+.bar .num{text-align:right;font-weight:650;font-variant-numeric:tabular-nums}
+ul.tight{margin:6px 0 0;padding-left:20px;color:var(--ink-soft);font-size:13.5px}
+ul.tight li{margin-bottom:6px}
+a{color:var(--teal)}
+footer{border-top:1px solid var(--line);background:var(--panel);padding:20px 18px;font-size:12.2px;color:var(--slate)}
+footer .wrap{max-width:1240px;margin:0 auto}
+.src{font-size:11.8px;color:var(--slate);margin-top:11px;line-height:1.5}
+.finding{border-left:3px solid var(--teal);padding:2px 0 2px 14px;margin-bottom:15px}
+.finding h4{margin:0 0 3px;font-size:14px}
+.finding p{margin:0;font-size:13.4px;color:var(--ink-soft)}
+@media(max-width:640px){.bar{grid-template-columns:104px 1fr 78px;font-size:11.5px}header h1{font-size:19px}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <h1>AWPFDSC — Australian Women's Pelvic Floor Demand and Services Comparison</h1>
+  <p class="sub">A national demand-and-supply view of women's pelvic-floor and continence care: prevalent need, workforce supply, service delivery sector, and access, by ASGS Remoteness Area and jurisdiction.</p>
+  <div class="meta">
+    <span>Version 1.0 · 28 August 2026</span>
+    <span>A/Prof J. Oliver Daly</span>
+    <span>Project: ABC – Prolapse</span>
+    <span>No patient-level data</span>
+  </div>
+</div></header>
+
+<nav><div class="wrap" role="tablist" id="tabs"></div></nav>
+
+<main>
+<!-- OVERVIEW -->
+<section role="tabpanel" id="p-overview" class="on">
+  <h2>Overview</h2>
+  <p class="lede">Australia has a large, well-characterised pelvic-floor care need and a small, highly metropolitan, predominantly private supply. The misalignment worsens monotonically with remoteness.</p>
+  <div class="grid g4" id="kpis"></div>
+  <div class="grid g2">
+    <div class="card"><h3>Specialist supply per 100,000 people, by remoteness</h3>
+      <div class="chartbox"><canvas id="c-supply"></canvas></div>
+      <div class="src">NHWDS 2023, in labour force in Australia; denominators ABS ERP 30 June 2023.</div></div>
+    <div class="card"><h3>Prolapse + incontinence cases per O&amp;G specialist</h3>
+      <div class="chartbox"><canvas id="c-ratio"></canvas></div>
+      <div class="src">Prevalent cases (UI 25% + POP 6.8% of women 18+) divided by O&amp;G headcount in the same remoteness area.</div></div>
+  </div>
+  <div class="card"><h3>The six structural findings</h3><div id="findings"></div></div>
+</section>
+
+<!-- BURDEN -->
+<section role="tabpanel" id="p-burden">
+  <h2>Burden of disease</h2>
+  <p class="lede">Prevalence rates applied to the 10.28 million Australian women aged 18 and over, plus the modelled downstream demand generated by a single birth cohort.</p>
+  <div class="grid g3" id="burden-kpis"></div>
+  <div class="caveat"><strong>Read prevalence as a floor, not a referral stream.</strong> Prevalent cases are not new referrals. Roughly 70% of Australians with incontinence never seek help and only about 1 in 6 have ever discussed it with a GP, so observed demand is far below prevalence. A help-seeking multiplier — a default of 30% of prevalent cases presenting over 10 years — is the appropriate conversion, applied in the Gap analysis tab rather than here.</div>
+  <div class="grid g2">
+    <div class="card"><h3>Prevalent cases by remoteness and condition</h3>
+      <div class="chartbox"><canvas id="c-prev"></canvas></div>
+      <div class="src">UI 25%, symptomatic POP 6.8%, FI 19.8% of women 18+ (AWPFDSC prevalence constants).</div></div>
+    <div class="card"><h3>2023 birth cohort — mode of birth</h3>
+      <div class="chartbox"><canvas id="c-birth"></canvas></div>
+      <div class="src">AIHW National Perinatal Data Collection 2023. 281,099 women gave birth; caesarean rate 40.6%, two-thirds pre-labour.</div></div>
+  </div>
+  <div class="card"><h3>Prevalent need by remoteness area</h3><div class="tblwrap"><table id="t-prev"></table></div>
+    <div class="src">Women 18+ derived by applying the national women-18+ share of ERP (38.59%) to each remoteness area. Remote and Very Remote populations skew younger and more male, so those two rows are likely overstated by roughly 5–10%.</div></div>
+  <div class="grid g2">
+    <div class="card"><h3>Downstream demand from the single 2023 cohort</h3><div class="tblwrap"><table id="t-cohort"></table></div>
+      <div class="src">Modelled from the 2023 cohort only. Actual annual demand is substantially higher because every prior cohort is still generating need concurrently.</div></div>
+    <div class="card"><h3>Where the risk comes from</h3>
+      <ul class="tight">
+        <li>Roughly <strong>half</strong> the risk is attributable to pregnancy and birth (muscle, connective-tissue and nerve trauma); the other half to lifestyle and occupational chronic loading. The two are not independent.</li>
+        <li>The <strong>first vaginal birth</strong> carries the greatest risk — a step change at birth one, with incremental risk thereafter.</li>
+        <li>A <strong>second-stage emergency caesarean</strong> behaves more like a complicated vaginal birth than an elective caesarean.</li>
+        <li>Crowning involves about <strong>170% transverse stretch and 40% lengthening</strong> of perineal tissue.</li>
+        <li><strong>4,556 women (2.7%)</strong> had a recorded third- or fourth-degree tear in 2023 — about 1 in 37 vaginal births. AIHW combines the two grades.</li>
+        <li>About <strong>1 in 5</strong> Australian women will have prolapse surgery in her lifetime (19% by age 85, Smith 2010 WA cohort). Recurrence runs 15–30%.</li>
+        <li>Nordic multicentre prevention bundles cut severe tears from <strong>4–5% to 1–2%</strong> across four hospitals.</li>
+      </ul>
+      <div class="src">Clinical framing and the cohort model come from the Vaginal Prolapse Interview Questions thread; the risk strata behind the projection are an advocacy model on marginal-independence assumptions and must not be quoted as patient-level prediction.</div></div>
+  </div>
+</section>
+
+<!-- WORKFORCE -->
+<section role="tabpanel" id="p-workforce">
+  <h2>Workforce and supply</h2>
+  <p class="lede">Three workforces carry pelvic-floor care: general practice, obstetrics and gynaecology, and pelvic-health physiotherapy. They have very different geographic and sector profiles.</p>
+  <div class="grid g4" id="wf-kpis"></div>
+  <div class="grid g2">
+    <div class="card"><h3>Headcount distribution by remoteness (% of each workforce)</h3>
+      <div class="chartbox"><canvas id="c-share"></canvas></div>
+      <div class="src">NHWDS 2023. O&amp;G is the most metropolitan-concentrated at 82% Major Cities; GP the least at 74%.</div></div>
+    <div class="card"><h3>Metropolitan concentration factor (per-capita Major Cities ÷ Very Remote)</h3>
+      <div class="chartbox"><canvas id="c-conc"></canvas></div>
+      <div class="src">A value above 1 means higher per-capita supply in Major Cities. GP is the only workforce below 1 — per-capita GP supply is higher in Very Remote Australia, driven by ACCHOs and salaried remote services.</div></div>
+  </div>
+  <div class="grid g2">
+    <div class="card"><h3>Sector reliance inverts with remoteness</h3>
+      <div class="chartbox"><canvas id="c-sector"></canvas></div>
+      <div class="src">O&amp;G: public share of clinical hours in the modal 35–49 h band. GP: proportion exclusively public. Remote and Very Remote O&amp;G cells are confidentialised by NHWDS and are omitted — a zero in that column is an artefact, not a finding.</div></div>
+    <div class="card"><h3>Subspecialty capacity</h3><div class="tblwrap"><table id="t-subspec" style="max-width:620px"></table></div>
+      <div class="src">NHWDS 2023 self-designation plus RANZCOG Annual Report 2022–23. The published FTE gradient is starker still: 9.4 FTE per 100,000 in MMM 1 against 0.9 in MMM 4–7, with 73.5% of urogynaecology FTE in the private sector.</div></div>
+  </div>
+  <div class="card"><h3>Workforce supply by remoteness area</h3><div class="tblwrap"><table id="t-wf"></table></div></div>
+  <div class="card"><h3>How many GPs actually provide pelvic-floor care?</h3>
+    <p class="lede">No Australian dataset measures this. BEACH closed in 2016 with no successor, MABEL publishes no pelvic-floor cut, and there is no MBS item flag. Three concentric estimates are defensible.</p>
+    <div class="bars" id="gp-bars"></div>
+    <div class="src">DRANZCOG (2,289 holders, 7.0% of GPs) is the best available surrogate for GPs with structured women's-health training beyond RACGP fellowship. Its caveats: no dedicated pelvic-floor module, it under-counts scope-competent non-Diplomates, over-counts inactive Diplomates, and is not published by remoteness. For pelvic-floor care specifically, a plausible upper bound is 6,000–8,000 GPs (18–25%) providing any assessment, with a working estimate of 2,000–4,000 (6–12%) providing it routinely.</div></div>
+</section>
+
+<!-- ACCESS -->
+<section role="tabpanel" id="p-access">
+  <h2>Access and waiting lists</h2>
+  <p class="lede">Two very different waits matter, and only one is nationally measured. Elective surgery waiting times capture the delay after a decision to operate. The outpatient wait for a first specialist appointment — usually the longer and more consequential delay — has no national collection at all.</p>
+  <div class="grid g4" id="acc-kpis"></div>
+  <div class="caveat"><strong>Do not treat these two datasets as comparable.</strong> State outpatient dashboards measure wait-to-first-appointment; AIHW measures wait-to-surgery-after-listing. Combined referral-to-surgery lead time can only be reconstructed by joining collections that are not publicly linked. Stock (patients waiting at a census date) and flow (patients admitted over a period) are also different units.</div>
+  <div class="grid g2">
+    <div class="card"><h3>Gynaecology elective surgery waits, 2023–24</h3>
+      <div class="chartbox"><canvas id="c-elect"></canvas></div>
+      <div class="src">AIHW Elective surgery waiting times 2023–24, Table 4.5. Median and 90th-percentile days by jurisdiction.</div></div>
+    <div class="card"><h3>Gynaecology elective surgery volume, 2023–24</h3>
+      <div class="chartbox"><canvas id="c-elect-vol"></canvas></div>
+      <div class="src">Admissions from waiting lists. National total 90,442. Applying the derived ~28% public share of urogynaecology activity gives an order-of-magnitude inference of about 8,000 public elective urogynaecology admissions per year nationally.</div></div>
+  </div>
+  <div class="card"><h3>Gynaecology elective surgery by jurisdiction</h3><div class="tblwrap"><table id="t-elect"></table></div></div>
+  <div class="card"><h3>Outpatient waiting — what each jurisdiction publishes</h3><div class="tblwrap"><table class="left" id="t-outp"></table></div>
+    <div class="src">Four jurisdictions publish something usable and they publish in incompatible native units — health service, HHS, metro hospital, territory — with different metrics. Pooling them into a single national figure would be indefensible. AIHW receives a non-admitted activity feed (40.9 million service events in 2023–24, 54% female) but no waiting-list minimum data set.</div></div>
+  <div class="card"><h3>Longest reported gynaecology waits by local service</h3>
+    <div class="grid g2" style="margin:0">
+      <div><h3 style="font-size:13.5px;color:var(--slate)">Elective surgery — highest % waiting over 365 days</h3>
+        <div class="bars" id="lhn-365"></div>
+        <div class="src">AIHW MyHospitals LHN datasheets, 2023–24. 69 of 160 LHNs report a gynaecology row. Western Health (Vic) is suppressed (NP), which is a data-quality flag rather than a zero.</div></div>
+      <div><h3 style="font-size:13.5px;color:var(--slate)">Elective surgery — longest median wait (days)</h3>
+        <div class="bars" id="lhn-med"></div>
+        <div class="src">Largest volumes sit elsewhere again: Monash Health 4,412 admissions; Metro North Qld 4,342; Hunter New England 3,718; South Eastern Sydney 3,499.</div></div>
+    </div></div>
+  <div class="card"><h3>Access barriers reported from practice</h3>
+    <ul class="tight">
+      <li>Chronic Disease Management plans fund <strong>5 physiotherapy sessions against 10 psychology sessions</strong> — a poor fit for a condition whose first-line treatment is supervised pelvic-floor muscle training.</li>
+      <li>There is <strong>no reliable national directory of pelvic-floor physiotherapists</strong>, the workforce women are most often told to see directly.</li>
+      <li>Post-mesh reluctance to consult gynaecologists at all persists as a measurable care-seeking barrier.</li>
+      <li>Typical private out-of-pocket cost around <strong>$7,000</strong>.</li>
+    </ul>
+    <div class="src">Structural barriers reported from clinical practice. Service-specific practitioner-reported waiting figures are held in the private companion report and are not published here.</div></div>
+</section>
+
+<!-- GAP -->
+<section role="tabpanel" id="p-gap">
+  <h2>Gap analysis</h2>
+  <p class="lede">Where need and supply diverge, how much of the need converts into delivered treatment, and what sector delivers it.</p>
+  <div class="grid g4" id="gap-kpis"></div>
+  <div class="grid g2">
+    <div class="card"><h3>Demand-to-supply ratio by remoteness</h3>
+      <div class="chartbox"><canvas id="c-gap"></canvas></div>
+      <div class="src">Prolapse + incontinence cases per practitioner. A woman in Very Remote Australia sits in a catchment where each O&amp;G specialist notionally carries 5.3 times the caseload of a metropolitan counterpart.</div></div>
+    <div class="card"><h3>Delivery is majority-private</h3>
+      <div class="chartbox"><canvas id="c-sectorproc"></canvas></div>
+      <div class="src">NHMD separations versus MBS services, 2023–24. Rectopexy and hysterectomy deliberately excluded. Family-level totals are more defensible than per-item comparison because ACHI-to-MBS mapping is many-to-one.</div></div>
+  </div>
+  <div class="card"><h3>Reconstructive pelvic-floor surgery, 2023–24</h3><div class="tblwrap"><table id="t-proc"></table></div>
+    <div class="src">Urogynaecology is 3.7% of all NHMD gynaecology procedures (27,728 of 751,331 ACHI Chapter 13). That share is the quantitative reason urogynaecology never surfaces as a reportable category.</div></div>
+  <div class="card"><h3>Need against delivered activity — the conversion funnel</h3>
+    <div class="bars" id="funnel"></div>
+    <p style="font-size:12px;color:var(--slate);margin:10px 0 0">Bar lengths are log-scaled so that small values remain visible across five orders of magnitude.</p>
+    <div class="src">Most prolapse is managed conservatively and should be, so this is not a shortfall count. It is an order-of-magnitude marker of how little of the prevalent need converts into surgical treatment in any one year. The help-seeking step applies the AWPFDSC default of 30% of prevalent cases seeking care over 10 years.</div></div>
+  <div class="card"><h3>The gap is structurally unmeasurable in current collections</h3>
+    <p class="lede">Urogynaecology is not separately reported in NHMD procedure reporting, NESWTDC waiting times, any state outpatient dashboard, MBS geographic breakdowns, or the AIHW 152-item intended-procedure list. Colposuspension, mid-urethral sling, sacrocolpopexy and sacrospinous fixation appear nowhere as standalone national categories. There is no national outpatient waiting-list collection at all.</p>
+    <div class="tblwrap"><table class="left" id="t-roadmap"></table></div></div>
+</section>
+
+<!-- SOURCES -->
+<section role="tabpanel" id="p-sources">
+  <h2>Sources and methodology</h2>
+  <p class="lede">Every figure in this dashboard is baked at build time from the datasets deposited in the ABC – Prolapse project repository. There is no backend, no live query and no patient-level data.</p>
+  <div class="grid g2">
+    <div class="card"><h3>Method — how each number is derived</h3>
+      <ul class="tight">
+        <li><strong>Population by remoteness:</strong> ABS ERP at 30 June 2023, ASGS Remoteness Area 2021.</li>
+        <li><strong>Women 18+:</strong> derived, not published. The national women-18+ share of total ERP (10,284,187 / 26,652,777 = 38.59%) is applied uniformly to each remoteness area. Remote and Very Remote populations skew younger and more male, so their adult-female counts — and therefore prevalence and demand-to-supply ratios — are likely overstated by roughly 5–10%. An RA-level age-and-sex table would remove the approximation and is the priority v2 refinement.</li>
+        <li><strong>Prevalence:</strong> UI 25%, symptomatic POP 6.8%, FI 19.8% of women 18+ — constants inherited from the Bayside Health Pelvic Floor and Continence Services Dashboard, not re-derived from an Australian systematic review for this build. Treat as a prevalence floor.</li>
+        <li><strong>Help-seeking:</strong> default 30% of prevalent cases seeking care over 10 years, applied only in the Gap analysis conversion funnel.</li>
+        <li><strong>Workforce:</strong> NHWDS 2023 headcount, filtered to "In labour force in Australia". Workforce location is not service location.</li>
+        <li><strong>Sector split:</strong> O&amp;G public share of clinical hours in the modal 35–49 h band; GP proportion exclusively public. NHWDS confidentialises small cells to multiples of 3–5, so Remote and Very Remote sector figures are indicative only.</li>
+        <li><strong>Procedure volume:</strong> NHMD counts separations; MBS counts services. The two are different units and diverge for day surgery and multi-procedure episodes. Twelve MBS items on the curated list return zero NHMD activity under ACHI 12; a few (bulking, artificial urinary sphincter) show MBS at 106–143% of NHMD and are treated as essentially fully private.</li>
+        <li><strong>Cohort projection:</strong> per-cohort, not annual demand, and built on coarse marginal-independence risk strata that must not be presented as patient-level prediction.</li>
+        <li><strong>Suppression:</strong> NR, NP and blank cells never mean zero.</li>
+      </ul></div>
+    <div class="card"><h3>Known limitations</h3>
+      <ul class="tight">
+        <li>No service-level national inventory exists. Supply is measured by workforce location, not by where a prolapse clinic actually runs.</li>
+        <li>Urogynaecology is not separately identifiable in any national or jurisdictional collection. Every urogynaecology-specific figure here is a workforce self-designation, an ACHI/MBS reconstruction, or an inference from a derived public share.</li>
+        <li>Outpatient waiting data are not poolable. Four jurisdictions publish nothing; the four that publish use incompatible units.</li>
+        <li>Private-sector supply is only partially visible, and least visible in Tasmania, the ACT and the Northern Territory, none of which publish a private-hospital licensing register.</li>
+        <li>Mixed data vintages — NHWDS 2023, ABS 2023, AIHW 2023–24, VAHI 2025 Q2, Queensland June 2026. Comparisons within one dataset are sound; across datasets they carry a vintage caveat.</li>
+        <li>Victoria has zero public gynaecology sites in Remote or Very Remote classes; the eight most distant are all Outer Regional. Only Grampians Health (Ballarat) and Bendigo Health advertise subspecialty prolapse or incontinence services outside metropolitan Melbourne.</li>
+        <li>All 10 RANZCOG-accredited urogynaecology training units are in major-city localities, so the pipeline reproduces the existing distribution rather than correcting it.</li>
+      </ul></div>
+  </div>
+  <div class="card"><h3>Source register</h3><div class="tblwrap"><table class="left" id="t-sources"></table></div></div>
+  <div class="card"><h3>Attribution</h3>
+    <p class="lede">Adapted from the AWPFDSC dashboard design specification v1.0 (A/Prof J. Oliver Daly, 28 August 2026), itself derived from the <a href="https://ideasth.github.io/BaysideHealth-PelvicFloorServicePlanningTool/">Bayside Health Pelvic Floor &amp; Continence Services Dashboard</a> (v1, 28 May 2026). Analysis consolidated from five ABC – Prolapse project threads: Obstetrics and Gynaecology Workforce Analysis; Public Data on Urogynaecology Waiting Lists; Urogynaecology Volumes and Demand Analysis; Australian Women's Health Services by Remoteness; and Vaginal Prolapse Interview Questions.</p>
+    <p class="lede" style="margin:0">Corrections of record carried forward: the Australian body is the <strong>Urogynaecological Society of Australasia</strong> (UGSA, est. 2010) — no organisation called "AAUG" was confirmed to exist. <strong>myhospitals.aihw.gov.au has been retired</strong>; content now sits at <a href="https://www.aihw.gov.au/hospitals">aihw.gov.au/hospitals</a>. Lifetime prolapse-surgery risk is <strong>~1 in 5 (19% by age 85)</strong>, not the older "1 in 8–12".</p></div>
+</section>
+</main>
+
+<footer><div class="wrap">
+  AWPFDSC v1.0 · Built 28 August 2026 from build-time-baked project datasets · No backend, no patient-level data ·
+  Companion document: <em>Australian Women's Pelvic Floor Care Needs and Health Services Supply</em> ·
+  Prepared by A/Prof J. Oliver Daly for the ABC – Prolapse project.
+</div></footer>
+
+<script src="data.js"></script>
+<script>
+const D = window.AWPFDSC, R = D.remoteness, N = D.national;
+const f = n => n==null ? '—' : n.toLocaleString('en-AU');
+const RA = R.map(r=>r.ra);
+const C = {teal:'#0f766e',tealL:'#5eada6',plum:'#7c3f6d',amber:'#b45309',red:'#9f1239',blue:'#1d4ed8',slate:'#94a3b8',ink:'#14213d'};
+Chart.defaults.font.family = getComputedStyle(document.body).fontFamily;
+Chart.defaults.font.size = 11.5;
+Chart.defaults.color = '#4b5675';
+Chart.defaults.plugins.legend.labels.boxWidth = 11;
+Chart.defaults.plugins.legend.labels.boxHeight = 11;
+Chart.defaults.plugins.legend.labels.usePointStyle = true;
+Chart.defaults.maintainAspectRatio = false;
+
+/* ---------- tabs ---------- */
+const TABS = [['overview','Overview'],['burden','Burden of disease'],['workforce','Workforce & supply'],
+              ['access','Access & waiting lists'],['gap','Gap analysis'],['sources','Sources & methodology']];
+const nav = document.getElementById('tabs');
+function show(id,scroll){
+  nav.querySelectorAll('button').forEach(x=>x.setAttribute('aria-selected', x.dataset.id===id?'true':'false'));
+  document.querySelectorAll('section[role=tabpanel]').forEach(s=>s.classList.remove('on'));
+  document.getElementById('p-'+id).classList.add('on');
+  if(scroll) window.scrollTo({top:0,behavior:'instant'});
+}
+TABS.forEach(([id,label],i)=>{
+  const b=document.createElement('button');
+  b.textContent=label; b.dataset.id=id; b.setAttribute('role','tab');
+  b.setAttribute('aria-selected', i===0?'true':'false');
+  b.onclick=()=>{location.hash=id; show(id,true);};
+  nav.appendChild(b);
+});
+const startTab = location.hash.replace('#','');
+if(TABS.some(t=>t[0]===startTab)) show(startTab,false);
+window.addEventListener('hashchange',()=>{const h=location.hash.replace('#','');if(TABS.some(t=>t[0]===h)) show(h,true);});
+
+/* ---------- helpers ---------- */
+function kpis(el,items){
+  document.getElementById(el).innerHTML = items.map(k=>
+    `<div class="kpi ${k.c||''}"><div class="lbl">${k.lbl}</div><div class="val">${k.val}</div><div class="note">${k.note}</div></div>`).join('');
+}
+function table(el,head,rows,foot){
+  const t=document.getElementById(el);
+  t.innerHTML = `<thead><tr>${head.map(h=>`<th>${h}</th>`).join('')}</tr></thead>`
+    + `<tbody>${rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody>`
+    + (foot?`<tfoot><tr>${foot.map(c=>`<td>${c}</td>`).join('')}</tr></tfoot>`:'');
+}
+function bars(el,items,colour,logScale){
+  const max=Math.max(...items.map(i=>i.v)), min=Math.min(...items.map(i=>i.v));
+  const w = v => logScale
+    ? Math.max(2.5, (Math.log10(v)-Math.log10(min)*0.92)/(Math.log10(max)-Math.log10(min)*0.92)*100)
+    : Math.max(0.8, v/max*100);
+  document.getElementById(el).innerHTML = items.map(i=>
+    `<div class="bar"><span>${i.k}</span><div class="track"><div class="fill" style="width:${w(i.v).toFixed(1)}%;background:${i.c||colour}"></div></div><span class="num">${i.d||f(i.v)}</span></div>`).join('');
+}
+
+/* ---------- overview ---------- */
+kpis('kpis',[
+  {lbl:'Women 18+ in Australia',val:f(N.women18),note:'ABS ERP 30 June 2023'},
+  {lbl:'Symptomatic pelvic organ prolapse',val:f(N.prev_pop),c:'plum',note:'6.8% of women 18+ — a prevalence floor'},
+  {lbl:'Urinary incontinence',val:f(N.prev_ui),c:'plum',note:'25% of women 18+'},
+  {lbl:'Faecal incontinence',val:f(N.prev_fi),c:'plum',note:'19.8% of women 18+'},
+  {lbl:'O&G specialists nationally',val:f(N.og),c:'blue',note:N.og_per100k+' per 100,000 · 82% in Major Cities'},
+  {lbl:'Designated urogynaecologists',val:f(N.urogyn),c:'red',note:N.urogyn_per_million_women18+' per million women 18+ · zero in Remote or Very Remote'},
+  {lbl:'Reconstructive procedures delivered',val:f(N.urogyn_total_nhmd),c:'amber',note:'2023–24 · '+N.urogyn_pct_gynae+'% of all NHMD gynaecology'},
+  {lbl:'Medicare-funded (private) share',val:N.mbs_share_pct+'%',c:'amber',note:'19,894 MBS services against 27,728 separations'},
+]);
+new Chart('c-supply',{type:'bar',data:{labels:RA,datasets:[
+  {label:'O&G specialists',data:R.map(r=>r.og_per100k),backgroundColor:C.teal,borderRadius:3},
+  {label:'Pelvic-health physiotherapists',data:R.map(r=>r.physio_per100k),backgroundColor:C.tealL,borderRadius:3},
+]},options:{scales:{y:{title:{display:true,text:'Per 100,000 population'},grid:{color:'#eef2f6'}},x:{grid:{display:false}}}}});
+new Chart('c-ratio',{type:'bar',data:{labels:RA,datasets:[{label:'Cases per O&G specialist',
+  data:R.map(r=>r.cases_per_og),backgroundColor:R.map((r,i)=>i===4?C.red:i===0?C.teal:C.plum),borderRadius:3}]},
+  options:{plugins:{legend:{display:false}},scales:{y:{title:{display:true,text:'Prolapse + incontinence cases'},grid:{color:'#eef2f6'}},x:{grid:{display:false}}}}});
+
+document.getElementById('findings').innerHTML = [
+ ['Subspecialty capacity is a rounding error against need','36 designated urogynaecologists and 55 RANZCOG-certified subspecialists across two countries, against 699,325 Australian women with symptomatic prolapse. All 10 accredited training units are in major-city localities, so the pipeline reproduces the existing distribution rather than correcting it.'],
+ ['Delivery is majority-private, shifting the access question from waiting to cost','72% of reconstructive activity is Medicare-funded. Private pathways are least available exactly where per-capita specialist supply is lowest, so a woman in Outer Regional Australia faces both a thinner public service and a thinner private alternative.'],
+ ['Public reliance rises with remoteness while public supply falls','The O&G public share of modal-band clinical hours more than doubles from 34.8% in Major Cities to 77.5% Outer Regional, at the same time as per-capita supply halves.'],
+ ['Conservative care — the correct first-line treatment — is the most privately delivered of all','Pelvic-health physiotherapy is 72–74% private at every level of engagement, with roughly three times as many exclusively-private as exclusively-public practitioners, no national directory, and a Chronic Disease Management allowance of five sessions.'],
+ ['General practice is the only workforce positioned to close the geographic gap, and its capability is unmeasured','GPs are the sole workforce with per-capita supply higher outside the cities. Yet the number providing competent pelvic-floor care is bounded (2,000–4,000 routine) rather than measured.'],
+ ['The gap is structurally unmeasurable in current collections','Urogynaecology is not separately reported anywhere in Australia — it is bundled into "Gynaecology" in every collection. There is no national outpatient waiting-list collection at all.'],
+].map(([h,p],i)=>`<div class="finding"><h4>${i+1}. ${h}</h4><p>${p}</p></div>`).join('');
+
+/* ---------- burden ---------- */
+kpis('burden-kpis',[
+  {lbl:'Women who gave birth, 2023',val:f(N.cohort_births_2023),note:'AIHW National Perinatal Data Collection'},
+  {lbl:'Third- or fourth-degree tears, 2023',val:f(N.cohort_oasi_2023),c:'red',note:'2.7% of vaginal births — about 1 in 37'},
+  {lbl:'Lifetime prolapse-surgery risk',val:'~1 in 5',c:'plum',note:'19% by age 85 (Smith 2010, WA cohort)'},
+]);
+new Chart('c-prev',{type:'bar',data:{labels:RA,datasets:[
+  {label:'Urinary incontinence',data:R.map(r=>r.prev_ui),backgroundColor:C.teal,borderRadius:3},
+  {label:'Faecal incontinence',data:R.map(r=>r.prev_fi),backgroundColor:C.tealL,borderRadius:3},
+  {label:'Symptomatic prolapse',data:R.map(r=>r.prev_pop),backgroundColor:C.plum,borderRadius:3},
+]},options:{scales:{y:{type:'logarithmic',min:1000,max:3000000,
+  title:{display:true,text:'Estimated prevalent cases (log scale)'},grid:{color:'#eef2f6'},
+  ticks:{autoSkip:false,callback:v=>[1000,10000,100000,1000000].includes(v)?v.toLocaleString('en-AU'):null}},
+  x:{grid:{display:false}}}}});
+new Chart('c-birth',{type:'doughnut',data:{labels:['Spontaneous vaginal 48.4%','Pre-labour caesarean 26.7%','Intrapartum caesarean 13.9%','Vacuum 6.6%','Forceps 4.3%'],
+  datasets:[{data:[48.4,26.7,13.9,6.6,4.3],backgroundColor:[C.teal,C.blue,'#60a5fa',C.amber,C.red],borderWidth:2,borderColor:'#fff'}]},
+  options:{cutout:'52%',plugins:{legend:{position:'right'}}}});
+
+table('t-prev',['Remoteness area','Population','Women 18+','Symptomatic prolapse','Urinary incontinence','Faecal incontinence'],
+  R.map(r=>[r.ra,f(r.pop),f(r.women18),f(r.prev_pop),f(r.prev_ui),f(r.prev_fi)]),
+  ['Australia',f(N.pop),f(N.women18),f(N.prev_pop),f(N.prev_ui),f(N.prev_fi)]);
+table('t-cohort',['Horizon','Women with symptoms','First prolapse operations'],
+  [['20 years','~'+f(N.cohort_symptoms_20y),'~'+f(N.cohort_ops_20y)],
+   ['30 years','~'+f(N.cohort_symptoms_30y),'~'+f(N.cohort_ops_30y)],
+   ['40 years','—','~'+f(N.cohort_ops_40y)]]);
+
+/* ---------- workforce ---------- */
+kpis('wf-kpis',[
+  {lbl:'General practitioners',val:f(N.gp),note:N.gp_per100k+' per 100,000 · 74% Major Cities'},
+  {lbl:'O&G specialists',val:f(N.og),c:'blue',note:N.og_per100k+' per 100,000 · 82% Major Cities'},
+  {lbl:'Pelvic-health physiotherapists',val:f(N.physio),c:'plum',note:N.physio_per100k+' per 100,000 · 78% Major Cities'},
+  {lbl:'DRANZCOG holders',val:f(N.dranzcog),c:'amber',note:'7.0% of GPs — best available surrogate for women\'s-health training'},
+]);
+const shares = k => {const tot=R.reduce((s,r)=>s+r[k],0); return R.map(r=>+(r[k]/tot*100).toFixed(1));};
+new Chart('c-share',{type:'bar',data:{labels:['General practitioners','O&G specialists','Pelvic-health physiotherapists'],
+  datasets:RA.map((ra,i)=>({label:ra,data:[shares('gp')[i],shares('og')[i],shares('physio')[i]],
+    backgroundColor:[C.teal,C.tealL,C.amber,C.plum,C.red][i],borderRadius:2}))},
+  options:{indexAxis:'y',scales:{x:{stacked:true,max:100,title:{display:true,text:'% of workforce'},grid:{color:'#eef2f6'}},y:{stacked:true,grid:{display:false}}}}});
+new Chart('c-conc',{type:'bar',data:{labels:Object.keys(D.concentration),
+  datasets:[{label:'Major Cities ÷ Very Remote',data:Object.values(D.concentration).map(v=>v.mc_vs_vr),
+    backgroundColor:[C.red,C.plum,C.teal],borderRadius:3}]},
+  options:{plugins:{legend:{display:false}},scales:{y:{title:{display:true,text:'Per-capita supply ratio (1.0 = parity)'},grid:{color:'#eef2f6'}},x:{grid:{display:false}}}}});
+new Chart('c-sector',{type:'line',data:{labels:RA,datasets:[
+  {label:'O&G — public share of clinical hours, 35–49 h band (%)',data:R.map(r=>r.og_public_modal),
+   borderColor:C.teal,backgroundColor:C.teal,tension:.25,spanGaps:false,pointRadius:4},
+  {label:'GP — exclusively public (%)',data:R.map(r=>r.gp_excl_public),
+   borderColor:C.amber,backgroundColor:C.amber,tension:.25,pointRadius:4},
+]},options:{scales:{y:{min:0,max:100,title:{display:true,text:'% public'},grid:{color:'#eef2f6'}},x:{grid:{display:false}}}}});
+
+table('t-subspec',['Measure','Value'],[
+  ['Designating urogynaecology as specialty (NHWDS 2023)',f(N.urogyn)],
+  ['— Major Cities','30'],['— Inner Regional','3'],['— Outer Regional','3'],['— Remote / Very Remote','0'],
+  ['RANZCOG-certified subspecialists (Aus + NZ)',f(N.urogyn_ranzcog_certified_anz)],
+  ['Subspecialty trainees',f(N.urogyn_trainees_anz)],
+  ['Accredited training units (all major-city)',f(N.urogyn_training_units_anz)],
+  ['Per million women 18+',N.urogyn_per_million_women18],
+  ['Women with symptomatic prolapse per urogynaecologist',f(N.pop_cases_per_urogyn)],
+]);
+table('t-wf',['Remoteness area','Population','GP','GP /100k','O&G','O&G /100k','Physio','Physio /100k','Urogyn','O&G public % (35–49 h)','GP exclusively public %'],
+  R.map(r=>[r.ra,f(r.pop),f(r.gp),r.gp_per100k,f(r.og),r.og_per100k,f(r.physio),r.physio_per100k,f(r.urogyn),
+    r.og_public_modal==null?'suppressed':r.og_public_modal+'%',r.gp_excl_public+'%']),
+  ['Australia',f(N.pop),f(N.gp),N.gp_per100k,f(N.og),N.og_per100k,f(N.physio),N.physio_per100k,f(N.urogyn),'—','—']);
+bars('gp-bars',[
+  {k:'Any routine women\'s health',v:29000,d:'~29,000 · 89%',c:C.tealL},
+  {k:'Top-three practice area',v:8300,d:'~8,300 · 26%',c:C.teal},
+  {k:'Pelvic floor — upper bound',v:7000,d:'~7,000 · 21%',c:C.amber},
+  {k:'Pelvic floor — routine',v:3000,d:'~3,000 · 9%',c:C.plum},
+  {k:'DRANZCOG holders',v:2289,d:'2,289 · 7.0%',c:C.red},
+]);
+
+/* ---------- access ---------- */
+const natE = D.elective.find(e=>e.jur==='Australia'), jurE = D.elective.filter(e=>e.jur!=='Australia');
+kpis('acc-kpis',[
+  {lbl:'Gynaecology elective admissions',val:f(natE.admissions),note:'2023–24, from public waiting lists'},
+  {lbl:'National median wait to surgery',val:natE.median+' days',c:'blue',note:'90th percentile '+natE.p90+' days'},
+  {lbl:'Waited over 365 days',val:natE.pct365+'%',c:'amber',note:'Cairns and Hinterland highest at 11.5%'},
+  {lbl:'Jurisdictions publishing outpatient waits',val:'4 of 8',c:'red',note:'In four incompatible native units. No national collection exists'},
+]);
+new Chart('c-elect',{type:'bar',data:{labels:jurE.map(e=>e.jur),datasets:[
+  {label:'Median days',data:jurE.map(e=>e.median),backgroundColor:C.teal,borderRadius:3},
+  {label:'90th percentile days',data:jurE.map(e=>e.p90),backgroundColor:C.plum,borderRadius:3},
+]},options:{scales:{y:{title:{display:true,text:'Days waited'},grid:{color:'#eef2f6'}},x:{grid:{display:false}}}}});
+new Chart('c-elect-vol',{type:'bar',data:{labels:jurE.map(e=>e.jur),datasets:[
+  {label:'Admissions from waiting lists',data:jurE.map(e=>e.admissions),backgroundColor:C.blue,borderRadius:3}]},
+  options:{plugins:{legend:{display:false}},scales:{y:{title:{display:true,text:'Admissions'},grid:{color:'#eef2f6'}},x:{grid:{display:false}}}}});
+table('t-elect',['Jurisdiction','Admissions','Median (days)','90th percentile (days)','% over 365 days'],
+  jurE.map(e=>[e.jur,f(e.admissions),e.median,e.p90,e.pct365+'%']),
+  ['Australia',f(natE.admissions),natE.median,natE.p90,natE.pct365+'%']);
+const pill = p => ({Yes:'yes',Partial:'part',Historical:'hist',No:'no'})[p];
+table('t-outp',['Jurisdiction','Published','Native unit','Metric','Detail'],
+  D.outpatient.map(o=>[o.jur,`<span class="pill ${pill(o.published)}">${o.published}</span>`,o.unit,o.metric,o.detail]));
+bars('lhn-365',[
+  {k:'Cairns & Hinterland',v:11.5,d:'11.5%'},{k:'Illawarra Shoalhaven',v:8.8,d:'8.8%'},
+  {k:'Nepean Blue Mountains',v:8.5,d:'8.5%'},{k:'Mid North Coast',v:8.5,d:'8.5%'},
+  {k:'Mercy Melbourne',v:8.3,d:'8.3%'},{k:'Central Adelaide',v:8.2,d:'8.2%'},
+],C.red);
+bars('lhn-med',[
+  {k:'Cairns & Hinterland',v:83,d:'83 d'},{k:'Nepean Blue Mountains',v:71,d:'71 d'},
+  {k:'ACT',v:57,d:'57 d'},{k:'Western NSW',v:57,d:'57 d'},
+  {k:'Metro South Qld',v:56,d:'56 d'},{k:'South Western Sydney',v:56,d:'56 d'},
+],C.plum);
+
+/* ---------- gap ---------- */
+kpis('gap-kpis',[
+  {lbl:'Cases per O&G — Very Remote',val:f(R[4].cases_per_og),c:'red',note:'against '+f(R[0].cases_per_og)+' in Major Cities — a 5.3× gradient'},
+  {lbl:'Cases per pelvic-health physio',val:f(N.cases_per_physio),c:'plum',note:'nationally · 2,701 in Very Remote'},
+  {lbl:'Prolapse cases per urogynaecologist',val:f(N.pop_cases_per_urogyn),c:'red',note:'nationally · undefined in Remote and Very Remote (zero supply)'},
+  {lbl:'Urogynaecology share of all gynaecology',val:N.urogyn_pct_gynae+'%',c:'amber',note:f(N.urogyn_total_nhmd)+' of '+f(N.gynae_all_nhmd)+' NHMD procedures'},
+]);
+new Chart('c-gap',{type:'bar',data:{labels:RA,datasets:[
+  {label:'Cases per O&G specialist',data:R.map(r=>r.cases_per_og),backgroundColor:C.red,borderRadius:3},
+  {label:'Cases per pelvic-health physiotherapist',data:R.map(r=>r.cases_per_physio),backgroundColor:C.plum,borderRadius:3},
+]},options:{scales:{y:{title:{display:true,text:'Prolapse + incontinence cases per practitioner'},grid:{color:'#eef2f6'}},x:{grid:{display:false}}}}});
+new Chart('c-sectorproc',{type:'bar',data:{labels:D.procedures.map(p=>p.family),datasets:[
+  {label:'Medicare-funded (private)',data:D.procedures.map(p=>p.mbs),backgroundColor:C.plum,borderRadius:3},
+  {label:'Derived public',data:D.procedures.map(p=>p.public),backgroundColor:C.teal,borderRadius:3},
+]},options:{indexAxis:'y',scales:{x:{stacked:true,title:{display:true,text:'Procedures, 2023–24'},grid:{color:'#eef2f6'}},y:{stacked:true,grid:{display:false}}}}});
+table('t-proc',['Procedure family','NHMD separations','MBS services (private)','Derived public','% Medicare-funded'],
+  D.procedures.map(p=>[p.family,f(p.nhmd),f(p.mbs),f(p.public),p.pct_mbs+'%']),
+  ['Urogynaecology total',f(N.urogyn_total_nhmd),f(19894),f(7834),N.mbs_share_pct+'%']);
+bars('funnel',[
+  {k:'Women 18+',v:N.women18,c:C.slate},
+  {k:'Symptomatic prolapse',v:N.prev_pop,c:C.tealL},
+  {k:'Seeking care (30% over 10 y)',v:Math.round(N.prev_pop*0.30),c:C.teal},
+  {k:'Prolapse procedures per year',v:D.procedures[1].nhmd+D.procedures[2].nhmd,c:C.plum},
+  {k:'— of which public',v:D.procedures[1].public+D.procedures[2].public,c:C.blue},
+  {k:'Designated urogynaecologists',v:N.urogyn,c:C.red},
+],null,true);
+table('t-roadmap',['Priority','Action to make the gap measurable','Why it matters'],[
+ ['High','Person-linked NPDC → hospital admissions → MBS analysis with competing risks','Replaces the cohort-projection model with a validated survival model. Requires a formal AIHW data request'],
+ ['High','National outpatient waiting-list minimum data set, or a VAHI-style publication in NSW, WA, Tas and NT','Four jurisdictions currently publish nothing on the wait that matters most'],
+ ['High','A sub-clinic code for urogynaecology within Gynaecology in outpatient and elective collections','Makes the gap measurable without building a new collection'],
+ ['Medium','RACGP-fielded survey of GP pelvic-floor scope of practice','Converts a bounded estimate into a measured one'],
+ ['Medium','National BEACH successor','Nothing has replaced it in the nine years since it closed'],
+ ['Medium','Procedure-volume map by provider location using MBS 35570 / 35573 / 35577 / 35595','Gives a credentialled-facility picture rather than a registry-participation proxy'],
+ ['Medium','National extension of the Victorian 61-site inventory template to the other seven jurisdictions','The only route to a real service map'],
+ ['Medium','National pelvic-floor physiotherapist directory','Removes a named, concrete barrier for the workforce women are told to self-refer to'],
+ ['Lower','Economic layer — projected volume costed against IHACPA episode prices plus outpatient, physiotherapy and travel','Produces a treasury-facing figure'],
+]);
+
+/* ---------- sources ---------- */
+table('t-sources',['Source','Feeds','Link'],[
+ ['NHWDS 2023, Health Workforce Data Tool','Workforce headcounts, remoteness, sector splits','<a href="https://hwd.health.gov.au/datatool/">hwd.health.gov.au/datatool</a>'],
+ ['ABS Regional population 2023–24, Table 3','Population by Remoteness Area, ERP 30 June 2023','<a href="https://www.abs.gov.au/statistics/people/population/regional-population/2023-24">abs.gov.au</a>'],
+ ['ABS National, state and territory population, June 2023, Table 8','Adult-female share of population','<a href="https://www.abs.gov.au/statistics/people/population/national-state-and-territory-population/jun-2023">abs.gov.au</a>'],
+ ['AIHW National Perinatal Data Collection 2023','Mode of birth, perineal status, OASI','<a href="https://www.aihw.gov.au/reports/mothers-babies/australias-mothers-babies/data">aihw.gov.au</a>'],
+ ['AIHW procedures data cubes (NHMD) 2023–24','Procedure separations by ACHI code','<a href="https://www.aihw.gov.au/reports/hospitals/procedures-data-cubes/contents/summary">aihw.gov.au</a>'],
+ ['Services Australia Medicare item statistics','MBS-funded procedure volumes','<a href="http://medicarestatistics.humanservices.gov.au/statistics/mbs_item.jsp">medicarestatistics.humanservices.gov.au</a>'],
+ ['AIHW Elective surgery waiting times 2023–24','Gynaecology admissions, median, p90, %>365 d','<a href="https://www.aihw.gov.au/hospitals/topics/elective-surgery/waiting-times">aihw.gov.au</a>'],
+ ['AIHW MyHospitals API','LHN-level gynaecology surgery; hospital locations','<a href="https://myhospitalsapi.aihw.gov.au/">myhospitalsapi.aihw.gov.au</a>'],
+ ['AIHW non-admitted patient care','Non-admitted activity; absence of a waiting collection','<a href="https://www.aihw.gov.au/hospitals/topics/non-admitted-patient-care">aihw.gov.au</a>'],
+ ['VAHI Specialist Clinics','Victorian gynaecology outpatient waits','<a href="https://vahi.vic.gov.au/reports/victorian-health-services-performance/specialist-clinics">vahi.vic.gov.au</a>'],
+ ['Queensland Health specialist appointments performance','HHS-level outpatient access','<a href="https://www.performance.health.qld.gov.au/statewide-performance/planned-care/specialist-appointments-performance">performance.health.qld.gov.au</a>'],
+ ['SA Health Specialist Outpatient Waiting Time Report','Metro Adelaide gynaecology outpatient waits','<a href="https://www.sahealth.sa.gov.au/">sahealth.sa.gov.au</a>'],
+ ['Canberra Health Services waiting times, Nov 2023','ACT gynaecology outpatient waits','<a href="https://www.canberrahealthservices.act.gov.au/data/assets/pdf_file/0003/2358642/Waiting-times-Outpatient-and-Emergency-Dept-Report-November-2023.pdf">canberrahealthservices.act.gov.au</a>'],
+ ['RANZCOG Annual Report 2022–23','Certified subspecialists, trainees, training units','<a href="https://ranzcog.edu.au/wp-content/uploads/Annual-Report-2022-2023.pdf">ranzcog.edu.au</a>'],
+ ['RANZCOG Media Kit','DRANZCOG holders','<a href="https://ranzcog.edu.au/wp-content/uploads/Media-Kit.pdf">ranzcog.edu.au</a>'],
+ ['Australian O&G Supply and Demand Report, April 2026','O&G and urogynaecology FTE by MMM','<a href="https://hwd.health.gov.au/resources/primary/o&g-compendium-report-april-2026.pdf">hwd.health.gov.au</a>'],
+ ['RACGP Health of the Nation 2024','GP practice-area self-report','<a href="https://www.racgp.org.au/FSDEDEV/media/documents/Health-of-the-Nation-2024.pdf">racgp.org.au</a>'],
+ ['Smith et al. 2010','Lifetime risk of first prolapse operation (19% by 85)','<a href="https://pubmed.ncbi.nlm.nih.gov/20966694/">pubmed.ncbi.nlm.nih.gov</a>'],
+ ['Hals et al. 2010','Nordic multicentre severe-tear reduction','<a href="https://pubmed.ncbi.nlm.nih.gov/20567163/">pubmed.ncbi.nlm.nih.gov</a>'],
+ ['Australasian Pelvic Floor Procedure Registry','Registry precedent and public reports','<a href="https://www.monash.edu/medicine/sphpm/registries/apfpr">monash.edu</a>'],
+ ['Continence Health Australia','Help-seeking behaviour','<a href="https://www.continence.org.au/">continence.org.au</a>'],
+ ['Healthdirect Service Finder / NHSD','Private clinic discovery layer','<a href="https://www.healthdirect.gov.au/australian-health-services">healthdirect.gov.au</a>'],
+]);
+</script>
+</body>
+</html>
