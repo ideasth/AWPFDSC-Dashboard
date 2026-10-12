@@ -26,10 +26,18 @@ Six tabs:
   **2.57 million** have urinary incontinence and **2.04 million** have faecal
   incontinence, on accepted prevalence rates applied to the 10.28 million women aged 18
   and over.
-- Australia has **1,884** obstetrician-gynaecologists, **2,471** pelvic-health
-  physiotherapists and **36** practitioners who designate urogynaecology as their
-  specialty. All **10** accredited urogynaecology training units are in major-city
-  localities.
+- Australia has **1,884** obstetrician-gynaecologists and **2,471** pelvic-health
+  physiotherapists (NHWDS 2023). RANZCOG certifies **60** urogynaecology subspecialists
+  across Australia and New Zealand (March 2026); **46** list an Australian principal
+  practice in the RANZCOG directory (44 in Major Cities, none in Remote or Very Remote
+  Australia, none in Tasmania, the ACT or the NT), against **36** self-designated in
+  NHWDS 2023. The **10** accredited training units listed in 2022–23 were all in
+  major-city localities.
+- The RANZCOG directory lists **1,166** Fellows with a generalist gynaecology scope and
+  an Australian principal practice, 952 of them in Major Cities. Maps of both
+  workforces (`map-urogyn.png`, `map-gengyn.png`) show practice locations over ABS
+  Remoteness Areas 2021. Directory data were retrieved on 12 October 2026 and are
+  published as aggregate counts only.
 - O&G supply per capita in Major Cities is **5.3 times** that of Very Remote Australia.
   Each O&G specialist in Very Remote Australia notionally carries **8,102**
   prolapse-and-incontinence cases against 1,541 in Major Cities.

@@ -164,9 +164,18 @@ footer .wrap{max-width:1240px;margin:0 auto}
       <div class="chartbox"><canvas id="c-sector"></canvas></div>
       <div class="src">O&amp;G: public share of clinical hours in the modal 35–49 h band. GP: proportion exclusively public. Remote and Very Remote O&amp;G cells are confidentialised by NHWDS and are omitted — a zero in that column is an artefact, not a finding.</div></div>
     <div class="card"><h3>Subspecialty capacity</h3><div class="tblwrap"><table id="t-subspec" style="max-width:620px"></table></div>
-      <div class="src">NHWDS 2023 self-designation plus RANZCOG Annual Report 2022–23. The published FTE gradient is starker still: 9.4 FTE per 100,000 in MMM 1 against 0.9 in MMM 4–7, with 73.5% of urogynaecology FTE in the private sector.</div></div>
+      <div class="src">RANZCOG certified list (March 2026), RANZCOG Find a women's health doctor directory (retrieved 12 October 2026) and RANZCOG Annual Report 2023–24, with NHWDS 2023 self-designation alongside. The directory is opt-in: 16 certified subspecialists are not listed and 3 listed are not on the current list. The published FTE gradient is starker still: 9.4 FTE per 100,000 in MMM 1 against 0.9 in MMM 4–7, with 73.5% of urogynaecology FTE in the private sector.</div></div>
   </div>
-  <div class="card"><h3>Workforce supply by remoteness area</h3><div class="tblwrap"><table id="t-wf"></table></div></div>
+  <div class="card"><h3>Workforce supply by remoteness area</h3><div class="tblwrap"><table id="t-wf"></table></div>
+    <div class="src">Urogyn (RANZCOG) and Gen. gynae (RANZCOG): people counted once at their principal listed practice, RANZCOG directory retrieved 12 October 2026, remoteness by spatial join to ABS RA 2021. Australia row includes people whose location could not be coded. Urogyn (NHWDS): self-designation, 2023.</div></div>
+  <div class="card"><h3>Where urogynaecology subspecialists practise</h3>
+      <a href="map-urogyn.png" target="_blank" rel="noopener"><img src="map-urogyn.png" alt="Map of Australia shaded by 2021 remoteness area, with points for the 75 Australian practice locations of 46 RANZCOG urogynaecology subspecialists, all in Major Cities except Bowral and Townsville" style="width:100%;max-width:1100px;height:auto;display:block;margin:0 auto"></a>
+      <div class="src">46 people with an Australian principal practice (NSW 15, Vic 16, Qld 11, WA 3, SA 1, Tas 0, ACT 0, NT 0), across 75 practice locations. Only 2 subspecialists list any site outside Major Cities.</div></div>
+    <div class="card"><h3>Where general gynaecologists practise</h3>
+      <a href="map-gengyn.png" target="_blank" rel="noopener"><img src="map-gengyn.png" alt="Map of Australia shaded by 2021 remoteness area, with points for 1,614 Australian practice locations of 1,166 RANZCOG Fellows with a generalist gynaecology scope" style="width:100%;max-width:1100px;height:auto;display:block;margin:0 auto"></a>
+      <div class="src">1,166 RANZCOG Fellows listing a generalist gynaecology scope with an Australian principal practice (952 Major Cities, 156 Inner Regional, 44 Outer Regional, 12 Remote, 1 Very Remote), across 1,614 practice locations. Headcount, not FTE.</div></div>
+  <div class="card"><h3>RANZCOG directory counts by state</h3><div class="tblwrap"><table id="t-ranzst"></table></div>
+    <div class="src">People at principal practice; sites are all listed Australian practice locations. Aggregate counts only. Source: RANZCOG Find a women's health doctor directory, retrieved 12 October 2026.</div></div>
   <div class="card"><h3>How many GPs actually provide pelvic-floor care?</h3>
     <p class="lede">No Australian dataset measures this. BEACH closed in 2016 with no successor, MABEL publishes no pelvic-floor cut, and there is no MBS item flag. Three concentric estimates are defensible.</p>
     <div class="bars" id="gp-bars"></div>
@@ -258,7 +267,7 @@ footer .wrap{max-width:1240px;margin:0 auto}
         <li>Private-sector supply is only partially visible, and least visible in Tasmania, the ACT and the Northern Territory, none of which publish a private-hospital licensing register.</li>
         <li>Mixed data vintages — NHWDS 2023, ABS 2023, AIHW 2023–24, VAHI 2025 Q2, Queensland June 2026. Comparisons within one dataset are sound; across datasets they carry a vintage caveat.</li>
         <li>Victoria has zero public gynaecology sites in Remote or Very Remote classes; the eight most distant are all Outer Regional. Only Grampians Health (Ballarat) and Bendigo Health advertise subspecialty prolapse or incontinence services outside metropolitan Melbourne.</li>
-        <li>All 10 RANZCOG-accredited urogynaecology training units are in major-city localities, so the pipeline reproduces the existing distribution rather than correcting it.</li>
+        <li>All 10 RANZCOG-accredited urogynaecology training units listed in 2022–23 were in major-city localities (12 units in 2023–24; locations not re-verified), so the pipeline reproduces the existing distribution rather than correcting it.</li>
       </ul></div>
   </div>
   <div class="card"><h3>Source register</h3><div class="tblwrap"><table class="left" id="t-sources"></table></div></div>
@@ -336,7 +345,7 @@ kpis('kpis',[
   {lbl:'Urinary incontinence',val:f(N.prev_ui),c:'plum',note:'25% of women 18+'},
   {lbl:'Faecal incontinence',val:f(N.prev_fi),c:'plum',note:'19.8% of women 18+'},
   {lbl:'O&G specialists nationally',val:f(N.og),c:'blue',note:N.og_per100k+' per 100,000 · 82% in Major Cities'},
-  {lbl:'Designated urogynaecologists',val:f(N.urogyn),c:'red',note:N.urogyn_per_million_women18+' per million women 18+ · zero in Remote or Very Remote'},
+  {lbl:'Urogynaecology subspecialists (RANZCOG)',val:f(N.urogyn_ranzcog_au),c:'red',note:N.urogyn_per_million_women18+' per million women 18+ · '+N.urogyn_ranzcog_certified_anz+' certified Aus + NZ · NHWDS '+N.urogyn_nhwds+' · zero in Remote or Very Remote'},
   {lbl:'Reconstructive procedures delivered',val:f(N.urogyn_total_nhmd),c:'amber',note:'2023–24 · '+N.urogyn_pct_gynae+'% of all NHMD gynaecology'},
   {lbl:'Medicare-funded (private) share',val:N.mbs_share_pct+'%',c:'amber',note:'19,894 MBS services against 27,728 separations'},
 ]);
@@ -349,7 +358,7 @@ new Chart('c-ratio',{type:'bar',data:{labels:RA,datasets:[{label:'Cases per O&G 
   options:{plugins:{legend:{display:false}},scales:{y:{title:{display:true,text:'Prolapse + incontinence cases'},grid:{color:'#eef2f6'}},x:{grid:{display:false}}}}});
 
 document.getElementById('findings').innerHTML = [
- ['Subspecialty capacity is a rounding error against need','36 designated urogynaecologists and 55 RANZCOG-certified subspecialists across two countries, against 699,325 Australian women with symptomatic prolapse. All 10 accredited training units are in major-city localities, so the pipeline reproduces the existing distribution rather than correcting it.'],
+ ['Subspecialty capacity is a rounding error against need','46 RANZCOG urogynaecology subspecialists list an Australian principal practice (44 of them in Major Cities, none in Remote or Very Remote Australia, none in Tasmania, the ACT or the NT), from 60 certified across Australia and New Zealand, against 699,325 Australian women with symptomatic prolapse. NHWDS records 36 self-designated urogynaecologists. All 10 accredited training units listed in 2022–23 were in major-city localities, so the pipeline reproduces the existing distribution rather than correcting it.'],
  ['Delivery is majority-private, shifting the access question from waiting to cost','72% of reconstructive activity is Medicare-funded. Private pathways are least available exactly where per-capita specialist supply is lowest, so a woman in Outer Regional Australia faces both a thinner public service and a thinner private alternative.'],
  ['Public reliance rises with remoteness while public supply falls','The O&G public share of modal-band clinical hours more than doubles from 34.8% in Major Cities to 77.5% Outer Regional, at the same time as per-capita supply halves.'],
  ['Conservative care — the correct first-line treatment — is the most privately delivered of all','Pelvic-health physiotherapy is 72–74% private at every level of engagement, with roughly three times as many exclusively-private as exclusively-public practitioners, no national directory, and a Chronic Disease Management allowance of five sessions.'],
@@ -406,19 +415,29 @@ new Chart('c-sector',{type:'line',data:{labels:RA,datasets:[
    borderColor:C.amber,backgroundColor:C.amber,tension:.25,pointRadius:4},
 ]},options:{scales:{y:{min:0,max:100,title:{display:true,text:'% public'},grid:{color:'#eef2f6'}},x:{grid:{display:false}}}}});
 
-table('t-subspec',['Measure','Value'],[
-  ['Designating urogynaecology as specialty (NHWDS 2023)',f(N.urogyn)],
-  ['— Major Cities','30'],['— Inner Regional','3'],['— Outer Regional','3'],['— Remote / Very Remote','0'],
-  ['RANZCOG-certified subspecialists (Aus + NZ)',f(N.urogyn_ranzcog_certified_anz)],
-  ['Subspecialty trainees',f(N.urogyn_trainees_anz)],
-  ['Accredited training units (all major-city)',f(N.urogyn_training_units_anz)],
-  ['Per million women 18+',N.urogyn_per_million_women18],
-  ['Women with symptomatic prolapse per urogynaecologist',f(N.pop_cases_per_urogyn)],
+const RD=D.ranzcog_directory;
+const STS=['NSW','VIC','QLD','WA','SA','TAS','ACT','NT'];
+table('t-ranzst',['Measure'].concat(STS),[
+  ['Urogynaecology subspecialists — people'].concat(STS.map(s=>f(RD.urogyn.people_by_state[s]))),
+  ['Urogynaecology — practice locations'].concat(STS.map(s=>f(RD.urogyn.sites_by_state[s]))),
+  ['General gynaecologists — people'].concat(STS.map(s=>f(RD.gengyn.people_by_state[s]))),
+  ['General gynaecology — practice locations'].concat(STS.map(s=>f(RD.gengyn.sites_by_state[s]))),
 ]);
-table('t-wf',['Remoteness area','Population','GP','GP /100k','O&G','O&G /100k','Physio','Physio /100k','Urogyn','O&G public % (35–49 h)','GP exclusively public %'],
-  R.map(r=>[r.ra,f(r.pop),f(r.gp),r.gp_per100k,f(r.og),r.og_per100k,f(r.physio),r.physio_per100k,f(r.urogyn),
+table('t-subspec',['Measure','Value'],[
+  ['RANZCOG-certified subspecialists (Aus + NZ, '+N.urogyn_ranzcog_certified_asof+')',f(N.urogyn_ranzcog_certified_anz)],
+  ['Listed in RANZCOG directory with an Australian principal practice',f(N.urogyn_ranzcog_au)],
+  ['— Major Cities',f(RD.urogyn.people_by_ra['Major Cities'])],['— Inner Regional',f(RD.urogyn.people_by_ra['Inner Regional'])],['— Outer Regional',f(RD.urogyn.people_by_ra['Outer Regional'])],['— Remote / Very Remote',f(RD.urogyn.people_by_ra['Remote']+RD.urogyn.people_by_ra['Very Remote'])],
+  ['Australian practice locations served (RANZCOG directory)',f(N.urogyn_ranzcog_sites_au)],
+  ['Designating urogynaecology as specialty (NHWDS 2023, alongside)',f(N.urogyn_nhwds)+' (30 / 3 / 3 / 0)'],
+  ['Subspecialty trainees (2023–24)',f(N.urogyn_trainees_anz)],
+  ['Accredited training units (2023–24)',f(N.urogyn_training_units_anz)],
+  ['Per million women 18+ (RANZCOG · NHWDS)',N.urogyn_per_million_women18+' · '+N.urogyn_nhwds_per_million_women18],
+  ['Women with symptomatic prolapse per urogynaecologist (RANZCOG · NHWDS)',f(N.pop_cases_per_urogyn)+' · '+f(N.pop_cases_per_urogyn_nhwds)],
+]);
+table('t-wf',['Remoteness area','Population','GP','GP /100k','O&G','O&G /100k','Physio','Physio /100k','Urogyn (RANZCOG)','Urogyn (NHWDS)','Gen. gynae (RANZCOG)','O&G public % (35–49 h)','GP exclusively public %'],
+  R.map(r=>[r.ra,f(r.pop),f(r.gp),r.gp_per100k,f(r.og),r.og_per100k,f(r.physio),r.physio_per100k,f(r.urogyn_ranzcog),f(r.urogyn),f(r.gengyn_ranzcog),
     r.og_public_modal==null?'suppressed':r.og_public_modal+'%',r.gp_excl_public+'%']),
-  ['Australia',f(N.pop),f(N.gp),N.gp_per100k,f(N.og),N.og_per100k,f(N.physio),N.physio_per100k,f(N.urogyn),'—','—']);
+  ['Australia',f(N.pop),f(N.gp),N.gp_per100k,f(N.og),N.og_per100k,f(N.physio),N.physio_per100k,f(N.urogyn_ranzcog_au),f(N.urogyn),f(N.gengyn_ranzcog_au),'—','—']);
 bars('gp-bars',[
   {k:'Any routine women\'s health',v:29000,d:'~29,000 · 89%',c:C.tealL},
   {k:'Top-three practice area',v:8300,d:'~8,300 · 26%',c:C.teal},
@@ -483,7 +502,7 @@ bars('funnel',[
   {k:'Seeking care (30% over 10 y)',v:Math.round(N.prev_pop*0.30),c:C.teal},
   {k:'Prolapse procedures per year',v:D.procedures[1].nhmd+D.procedures[2].nhmd,c:C.plum},
   {k:'— of which public',v:D.procedures[1].public+D.procedures[2].public,c:C.blue},
-  {k:'Designated urogynaecologists',v:N.urogyn,c:C.red},
+  {k:'Urogynaecology subspecialists (RANZCOG, Australia)',v:N.urogyn_ranzcog_au,c:C.red},
 ],null,true);
 table('t-roadmap',['Priority','Action to make the gap measurable','Why it matters'],[
  ['High','Person-linked NPDC → hospital admissions → MBS analysis with competing risks','Replaces the cohort-projection model with a validated survival model. Requires a formal AIHW data request'],
@@ -512,7 +531,12 @@ table('t-sources',['Source','Feeds','Link'],[
  ['Queensland Health specialist appointments performance','HHS-level outpatient access','<a href="https://www.performance.health.qld.gov.au/statewide-performance/planned-care/specialist-appointments-performance">performance.health.qld.gov.au</a>'],
  ['SA Health Specialist Outpatient Waiting Time Report','Metro Adelaide gynaecology outpatient waits','<a href="https://www.sahealth.sa.gov.au/">sahealth.sa.gov.au</a>'],
  ['Canberra Health Services waiting times, Nov 2023','ACT gynaecology outpatient waits','<a href="https://www.canberrahealthservices.act.gov.au/data/assets/pdf_file/0003/2358642/Waiting-times-Outpatient-and-Emergency-Dept-Report-November-2023.pdf">canberrahealthservices.act.gov.au</a>'],
- ['RANZCOG Annual Report 2022–23','Certified subspecialists, trainees, training units','<a href="https://ranzcog.edu.au/wp-content/uploads/Annual-Report-2022-2023.pdf">ranzcog.edu.au</a>'],
+ ['RANZCOG Current Certified Urogynaecology Subspecialists, March 2026','60 certified subspecialists (Aus + NZ)','<a href="https://ranzcog.edu.au/wp-content/uploads/CU-Current-Subspecialists.pdf">ranzcog.edu.au</a>'],
+ ['RANZCOG Find a women\'s health doctor directory (retrieved 12 Oct 2026)','Urogynaecology and general gynaecology practice locations','<a href="https://integrate.ranzcog.edu.au/find-womens-health-doctor">integrate.ranzcog.edu.au</a>'],
+ ['RANZCOG Annual Report 2023–24','Certified subspecialists, trainees, training units','<a href="https://ranzcog.edu.au/wp-content/uploads/Annual-Report-2023-2024.pdf">ranzcog.edu.au</a>'],
+ ['ABS Remoteness Areas 2021 (ASGS Edition 3) boundaries','Remoteness coding of practice locations','<a href="https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs-edition-3/jul2021-jun2026/access-and-downloads/digital-boundary-files">abs.gov.au</a>'],
+ ['Australian postcodes and localities (M. Proctor)','Locality coordinates','<a href="https://github.com/matthewproctor/australianpostcodes">github.com</a>'],
+ ['RANZCOG Annual Report 2022–23','Training units by locality (2022–23)','<a href="https://ranzcog.edu.au/wp-content/uploads/Annual-Report-2022-2023.pdf">ranzcog.edu.au</a>'],
  ['RANZCOG Media Kit','DRANZCOG holders','<a href="https://ranzcog.edu.au/wp-content/uploads/Media-Kit.pdf">ranzcog.edu.au</a>'],
  ['Australian O&G Supply and Demand Report, April 2026','O&G and urogynaecology FTE by MMM','<a href="https://hwd.health.gov.au/resources/primary/o&g-compendium-report-april-2026.pdf">hwd.health.gov.au</a>'],
  ['RACGP Health of the Nation 2024','GP practice-area self-report','<a href="https://www.racgp.org.au/FSDEDEV/media/documents/Health-of-the-Nation-2024.pdf">racgp.org.au</a>'],

@@ -9,7 +9,8 @@ window.AWPFDSC = {
    "UI": 0.25,
    "POP": 0.068,
    "FI": 0.198
-  }
+  },
+  "updated": "2026-10-12"
  },
  "remoteness": [
   {
@@ -32,7 +33,11 @@ window.AWPFDSC = {
    "cohort20": 11900,
    "cases_per_og": 1541,
    "cases_per_physio": 1239,
-   "pop_cases_per_og": 330
+   "pop_cases_per_og": 330,
+   "urogyn_ranzcog": 44,
+   "urogyn_ranzcog_sites": 72,
+   "gengyn_ranzcog": 952,
+   "gengyn_ranzcog_sites": 1326
   },
   {
    "ra": "Inner Regional",
@@ -54,7 +59,11 @@ window.AWPFDSC = {
    "cohort20": 2850,
    "cases_per_og": 2555,
    "cases_per_physio": 1423,
-   "pop_cases_per_og": 546
+   "pop_cases_per_og": 546,
+   "urogyn_ranzcog": 1,
+   "urogyn_ranzcog_sites": 1,
+   "gengyn_ranzcog": 156,
+   "gengyn_ranzcog_sites": 220
   },
   {
    "ra": "Outer Regional",
@@ -76,7 +85,11 @@ window.AWPFDSC = {
    "cohort20": 1290,
    "cases_per_og": 2601,
    "cases_per_physio": 2097,
-   "pop_cases_per_og": 556
+   "pop_cases_per_og": 556,
+   "urogyn_ranzcog": 1,
+   "urogyn_ranzcog_sites": 2,
+   "gengyn_ranzcog": 44,
+   "gengyn_ranzcog_sites": 53
   },
   {
    "ra": "Remote",
@@ -98,7 +111,11 @@ window.AWPFDSC = {
    "cohort20": 190,
    "cases_per_og": 2871,
    "cases_per_physio": 2073,
-   "pop_cases_per_og": 614
+   "pop_cases_per_og": 614,
+   "urogyn_ranzcog": 0,
+   "urogyn_ranzcog_sites": 0,
+   "gengyn_ranzcog": 12,
+   "gengyn_ranzcog_sites": 12
   },
   {
    "ra": "Very Remote",
@@ -120,7 +137,11 @@ window.AWPFDSC = {
    "cohort20": 124,
    "cases_per_og": 8102,
    "cases_per_physio": 2701,
-   "pop_cases_per_og": 1732
+   "pop_cases_per_og": 1732,
+   "urogyn_ranzcog": 0,
+   "urogyn_ranzcog_sites": 0,
+   "gengyn_ranzcog": 1,
+   "gengyn_ranzcog_sites": 1
   }
  ],
  "national": {
@@ -138,10 +159,10 @@ window.AWPFDSC = {
   "gp_per100k": 122.5,
   "og_per100k": 7.07,
   "physio_per100k": 9.27,
-  "urogyn_per_million_women18": 3.5,
-  "urogyn_ranzcog_certified_anz": 55,
-  "urogyn_trainees_anz": 15,
-  "urogyn_training_units_anz": 10,
+  "urogyn_per_million_women18": 4.5,
+  "urogyn_ranzcog_certified_anz": 60,
+  "urogyn_trainees_anz": 13,
+  "urogyn_training_units_anz": 12,
   "cohort20": 16354,
   "cohort_births_2023": 281099,
   "cohort_oasi_2023": 4556,
@@ -157,7 +178,16 @@ window.AWPFDSC = {
   "lifetime_surgery_risk_pct": 19,
   "cases_per_og": 1736,
   "cases_per_physio": 1324,
-  "pop_cases_per_urogyn": 19426
+  "pop_cases_per_urogyn": 15203,
+  "urogyn_ranzcog_certified_asof": "March 2026",
+  "urogyn_ranzcog_au": 46,
+  "urogyn_ranzcog_dir_total": 48,
+  "urogyn_ranzcog_sites_au": 75,
+  "urogyn_nhwds": 36,
+  "urogyn_nhwds_per_million_women18": 3.5,
+  "pop_cases_per_urogyn_nhwds": 19426,
+  "gengyn_ranzcog_au": 1166,
+  "gengyn_ranzcog_sites_au": 1614
  },
  "concentration": {
   "O&G": {
@@ -318,5 +348,101 @@ window.AWPFDSC = {
    "metric": "\u2014",
    "detail": "No outpatient wait data published. Elective surgery figures substitute."
   }
- ]
+ ],
+ "ranzcog_directory": {
+  "source": "RANZCOG Find a women's health doctor directory (integrate.ranzcog.edu.au/find-womens-health-doctor)",
+  "retrieved": "2026-10-12",
+  "method": "Each person counted once at the first-listed (principal) practice; every listed Australian practice location counted as a site. Remoteness by spatial join of locality centroids to ABS Remoteness Areas 2021.",
+  "urogyn": {
+   "people_total": 48,
+   "people_principal_au": 46,
+   "people_principal_nz": 2,
+   "people_by_state": {
+    "NSW": 15,
+    "VIC": 16,
+    "QLD": 11,
+    "WA": 3,
+    "SA": 1,
+    "TAS": 0,
+    "ACT": 0,
+    "NT": 0
+   },
+   "people_by_ra": {
+    "Major Cities": 44,
+    "Inner Regional": 1,
+    "Outer Regional": 1,
+    "Remote": 0,
+    "Very Remote": 0,
+    "Unknown": 0
+   },
+   "sites_au": 75,
+   "sites_by_state": {
+    "NSW": 23,
+    "VIC": 29,
+    "QLD": 17,
+    "WA": 5,
+    "SA": 1,
+    "TAS": 0,
+    "ACT": 0,
+    "NT": 0
+   },
+   "sites_by_ra": {
+    "Major Cities": 72,
+    "Inner Regional": 1,
+    "Outer Regional": 2,
+    "Remote": 0,
+    "Very Remote": 0,
+    "Unknown": 0
+   },
+   "people_with_nonmetro_site": 2
+  },
+  "gengyn": {
+   "people_total": 1353,
+   "people_principal_au": 1166,
+   "people_principal_nz": 172,
+   "people_principal_other": 15,
+   "people_by_state": {
+    "NSW": 331,
+    "VIC": 325,
+    "QLD": 248,
+    "WA": 119,
+    "SA": 79,
+    "TAS": 30,
+    "ACT": 22,
+    "NT": 9
+   },
+   "people_by_ra": {
+    "Major Cities": 952,
+    "Inner Regional": 156,
+    "Outer Regional": 44,
+    "Remote": 12,
+    "Very Remote": 1,
+    "Unknown": 1
+   },
+   "sites_au": 1614,
+   "sites_by_state": {
+    "NSW": 497,
+    "VIC": 467,
+    "QLD": 297,
+    "WA": 163,
+    "SA": 114,
+    "TAS": 35,
+    "ACT": 28,
+    "NT": 9
+   },
+   "sites_by_ra": {
+    "Major Cities": 1326,
+    "Inner Regional": 220,
+    "Outer Regional": 53,
+    "Remote": 12,
+    "Very Remote": 1,
+    "Unknown": 2
+   },
+   "people_with_nonmetro_site": 223
+  },
+  "caveats": [
+   "Directory listing is opt-in: 16 of the 60 RANZCOG-certified urogynaecology subspecialists (March 2026 list) are not listed, and 3 listed subspecialists are not on the current list.",
+   "General gynaecology counts are RANZCOG Fellows who list Generalist Gynaecology in their scope; they are not FTE and include Fellows who also hold a subspecialty."
+  ]
+ }
 };
