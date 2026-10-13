@@ -27,7 +27,9 @@ Six tabs:
   incontinence, on accepted prevalence rates applied to the 10.28 million women aged 18
   and over.
 - Australia has **1,884** obstetrician-gynaecologists and **2,471** pelvic-health
-  physiotherapists (NHWDS 2023). RANZCOG certifies **60** urogynaecology subspecialists
+  physiotherapists (NHWDS 2023, in labour force). The Commonwealth O&G Supply and Demand
+  Report (April 2026) counts 2,075 O&G specialists working clinically in 2023, 1,879 with no
+  registered subspecialty, and 35 with a registered urogynaecology subspecialty. RANZCOG certifies **60** urogynaecology subspecialists
   across Australia and New Zealand (March 2026); **46** list an Australian principal
   practice in the RANZCOG directory (44 in Major Cities, none in Remote or Very Remote
   Australia, none in Tasmania, the ACT or the NT), against **36** self-designated in

@@ -164,10 +164,10 @@ footer .wrap{max-width:1240px;margin:0 auto}
       <div class="chartbox"><canvas id="c-sector"></canvas></div>
       <div class="src">O&amp;G: public share of clinical hours in the modal 35–49 h band. GP: proportion exclusively public. Remote and Very Remote O&amp;G cells are confidentialised by NHWDS and are omitted — a zero in that column is an artefact, not a finding.</div></div>
     <div class="card"><h3>Subspecialty capacity</h3><div class="tblwrap"><table id="t-subspec" style="max-width:620px"></table></div>
-      <div class="src">RANZCOG certified list (March 2026), RANZCOG Find a women's health doctor directory (retrieved 12 October 2026) and RANZCOG Annual Report 2023–24, with NHWDS 2023 self-designation alongside. The directory is opt-in: 16 certified subspecialists are not listed and 3 listed are not on the current list. The published FTE gradient is starker still: 9.4 FTE per 100,000 in MMM 1 against 0.9 in MMM 4–7, with 73.5% of urogynaecology FTE in the private sector.</div></div>
+      <div class="src">RANZCOG certified list (March 2026), RANZCOG Find a women's health doctor directory (retrieved 12 October 2026) and RANZCOG Annual Report 2023–24, with NHWDS 2023 self-designation alongside. The directory is opt-in: 16 certified subspecialists are not listed and 3 listed are not on the current list. For all obstetrician-gynaecologists, the Commonwealth's published FTE gradient is starker still: 9.4 FTE per 100,000 in MMM 1 against 0.9 in MMM 4–7 (no urogynaecology breakdown by remoteness is published). For urogynaecology, 73.5% of subspecialist FTE is in the private sector (Australian O&G Supply and Demand Report, April 2026, Table 1).</div></div>
   </div>
   <div class="card"><h3>Workforce supply by remoteness area</h3><div class="tblwrap"><table id="t-wf"></table></div>
-    <div class="src">Urogyn (RANZCOG) and Gen. gynae (RANZCOG): people counted once at their principal listed practice, RANZCOG directory retrieved 12 October 2026, remoteness by spatial join to ABS RA 2021. Australia row includes people whose location could not be coded. Urogyn (NHWDS): self-designation, 2023.</div></div>
+    <div class="src">Urogyn (RANZCOG) and Gen. gynae (RANZCOG): people counted once at their principal listed practice, RANZCOG directory retrieved 12 October 2026, remoteness by spatial join to ABS RA 2021. Australia row includes people whose location could not be coded. Urogyn (NHWDS): self-designation, 2023. O&amp;G is the NHWDS 2023 in-labour-force headcount (1,884); the Commonwealth O&amp;G Supply and Demand Report counts 2,075 specialists working clinically in 2023 (2,181.9 FTE), 1,879 of them with no registered subspecialty. The definitions differ, so the figures are shown side by side rather than reconciled.</div></div>
   <div class="card"><h3>Where urogynaecology subspecialists practise</h3>
       <a href="map-urogyn.png" target="_blank" rel="noopener"><img src="map-urogyn.png" alt="Map of Australia shaded by 2021 remoteness area, with points for the 75 Australian practice locations of 46 RANZCOG urogynaecology subspecialists, all in Major Cities except Bowral and Townsville" style="width:100%;max-width:1100px;height:auto;display:block;margin:0 auto"></a>
       <div class="src">46 people with an Australian principal practice (NSW 15, Vic 16, Qld 11, WA 3, SA 1, Tas 0, ACT 0, NT 0), across 75 practice locations. Only 2 subspecialists list any site outside Major Cities.</div></div>
@@ -198,7 +198,7 @@ footer .wrap{max-width:1240px;margin:0 auto}
   </div>
   <div class="card"><h3>Gynaecology elective surgery by jurisdiction</h3><div class="tblwrap"><table id="t-elect"></table></div></div>
   <div class="card"><h3>Outpatient waiting — what each jurisdiction publishes</h3><div class="tblwrap"><table class="left" id="t-outp"></table></div>
-    <div class="src">Four jurisdictions publish something usable and they publish in incompatible native units — health service, HHS, metro hospital, territory — with different metrics. Pooling them into a single national figure would be indefensible. AIHW receives a non-admitted activity feed (40.9 million service events in 2023–24, 54% female) but no waiting-list minimum data set.</div></div>
+    <div class="src">Four jurisdictions publish something usable and they publish in incompatible native units — health service, HHS, metro hospital, territory — with different metrics. Pooling them into a single national figure would be indefensible. AIHW receives a non-admitted activity feed (40.9 million service events in 2023–24, 54% female) but no waiting-list minimum data set. Every public outpatient clinic is already classified to an IHACPA Tier 2 class (gynaecology is a defined class), so activity is counted at clinic level; the wait is not. <strong>Caveat on comparison:</strong> outpatient waits capture only care that begins in a public clinic. In New South Wales, assessment before listing for planned surgery “mainly occurs through the surgeon’s private rooms, or, less often, through local health district public outpatient clinics” (<a href="https://www.audit.nsw.gov.au/our-work/reports/planned-surgery-access">Audit Office of NSW, 2026</a>), and out-of-pocket costs may apply (<a href="https://www.health.nsw.gov.au/Performance/Pages/join-surgery-waitlist.aspx">NSW Health</a>). The proportion of care provided in public clinics versus private practice differs between jurisdictions and services, so it can distort comparisons: a jurisdiction that assesses most patients in private rooms may show short public outpatient waits, or none to report, while the pre-listing wait goes uncounted.</div></div>
   <div class="card"><h3>Longest reported gynaecology waits by local service</h3>
     <div class="grid g2" style="margin:0">
       <div><h3 style="font-size:13.5px;color:var(--slate)">Elective surgery — highest % waiting over 365 days</h3>
@@ -344,7 +344,7 @@ kpis('kpis',[
   {lbl:'Symptomatic pelvic organ prolapse',val:f(N.prev_pop),c:'plum',note:'6.8% of women 18+ — a prevalence floor'},
   {lbl:'Urinary incontinence',val:f(N.prev_ui),c:'plum',note:'25% of women 18+'},
   {lbl:'Faecal incontinence',val:f(N.prev_fi),c:'plum',note:'19.8% of women 18+'},
-  {lbl:'O&G specialists nationally',val:f(N.og),c:'blue',note:N.og_per100k+' per 100,000 · 82% in Major Cities'},
+  {lbl:'O&G specialists nationally',val:f(N.og),c:'blue',note:N.og_per100k+' per 100,000 · 82% in Major Cities · NHWDS 2023 in labour force; Commonwealth O&G study: 2,075 working clinically, 1,879 with no subspecialty'},
   {lbl:'Urogynaecology subspecialists (RANZCOG)',val:f(N.urogyn_ranzcog_au),c:'red',note:N.urogyn_per_million_women18+' per million women 18+ · '+N.urogyn_ranzcog_certified_anz+' certified Aus + NZ · NHWDS '+N.urogyn_nhwds+' · zero in Remote or Very Remote'},
   {lbl:'Reconstructive procedures delivered',val:f(N.urogyn_total_nhmd),c:'amber',note:'2023–24 · '+N.urogyn_pct_gynae+'% of all NHMD gynaecology'},
   {lbl:'Medicare-funded (private) share',val:N.mbs_share_pct+'%',c:'amber',note:'19,894 MBS services against 27,728 separations'},
@@ -395,7 +395,7 @@ table('t-cohort',['Horizon','Women with symptoms','First prolapse operations'],
 /* ---------- workforce ---------- */
 kpis('wf-kpis',[
   {lbl:'General practitioners',val:f(N.gp),note:N.gp_per100k+' per 100,000 · 74% Major Cities'},
-  {lbl:'O&G specialists',val:f(N.og),c:'blue',note:N.og_per100k+' per 100,000 · 82% Major Cities'},
+  {lbl:'O&G specialists',val:f(N.og),c:'blue',note:N.og_per100k+' per 100,000 · 82% Major Cities · NHWDS 2023 in labour force; Commonwealth O&G study: 2,075 working clinically, 1,879 with no subspecialty'},
   {lbl:'Pelvic-health physiotherapists',val:f(N.physio),c:'plum',note:N.physio_per100k+' per 100,000 · 78% Major Cities'},
   {lbl:'DRANZCOG holders',val:f(N.dranzcog),c:'amber',note:'7.0% of GPs — best available surrogate for women\'s-health training'},
 ]);
@@ -428,6 +428,7 @@ table('t-subspec',['Measure','Value'],[
   ['Listed in RANZCOG directory with an Australian principal practice',f(N.urogyn_ranzcog_au)],
   ['— Major Cities',f(RD.urogyn.people_by_ra['Major Cities'])],['— Inner Regional',f(RD.urogyn.people_by_ra['Inner Regional'])],['— Outer Regional',f(RD.urogyn.people_by_ra['Outer Regional'])],['— Remote / Very Remote',f(RD.urogyn.people_by_ra['Remote']+RD.urogyn.people_by_ra['Very Remote'])],
   ['Australian practice locations served (RANZCOG directory)',f(N.urogyn_ranzcog_sites_au)],
+  ['Registered urogynaecology subspecialty (Commonwealth O&G study, 2023)','35 headcount · 37.3 FTE · 73.5% private'],
   ['Designating urogynaecology as specialty (NHWDS 2023, alongside)',f(N.urogyn_nhwds)+' (30 / 3 / 3 / 0)'],
   ['Subspecialty trainees (2023–24)',f(N.urogyn_trainees_anz)],
   ['Accredited training units (2023–24)',f(N.urogyn_training_units_anz)],
@@ -531,6 +532,9 @@ table('t-sources',['Source','Feeds','Link'],[
  ['Queensland Health specialist appointments performance','HHS-level outpatient access','<a href="https://www.performance.health.qld.gov.au/statewide-performance/planned-care/specialist-appointments-performance">performance.health.qld.gov.au</a>'],
  ['SA Health Specialist Outpatient Waiting Time Report','Metro Adelaide gynaecology outpatient waits','<a href="https://www.sahealth.sa.gov.au/">sahealth.sa.gov.au</a>'],
  ['Canberra Health Services waiting times, Nov 2023','ACT gynaecology outpatient waits','<a href="https://www.canberrahealthservices.act.gov.au/data/assets/pdf_file/0003/2358642/Waiting-times-Outpatient-and-Emergency-Dept-Report-November-2023.pdf">canberrahealthservices.act.gov.au</a>'],
+ ['Audit Office of NSW, Planned surgery access (May 2026)','NSW assessment before listing mainly in private rooms','<a href="https://www.audit.nsw.gov.au/our-work/reports/planned-surgery-access">audit.nsw.gov.au</a>'],
+ ['NSW Health, Joining the planned surgery waitlist','Out-of-pocket costs for private-rooms assessment','<a href="https://www.health.nsw.gov.au/Performance/Pages/join-surgery-waitlist.aspx">health.nsw.gov.au</a>'],
+ ['IHACPA Tier 2 Non-Admitted Services Classification','Clinic-level outpatient activity classes','<a href="https://www.ihacpa.gov.au/health-care/classification/non-admitted-care/tier-2-non-admitted-services-classification">ihacpa.gov.au</a>'],
  ['RANZCOG Current Certified Urogynaecology Subspecialists, March 2026','60 certified subspecialists (Aus + NZ)','<a href="https://ranzcog.edu.au/wp-content/uploads/CU-Current-Subspecialists.pdf">ranzcog.edu.au</a>'],
  ['RANZCOG Find a women\'s health doctor directory (retrieved 12 Oct 2026)','Urogynaecology and general gynaecology practice locations','<a href="https://integrate.ranzcog.edu.au/find-womens-health-doctor">integrate.ranzcog.edu.au</a>'],
  ['RANZCOG Annual Report 2023–24','Certified subspecialists, trainees, training units','<a href="https://ranzcog.edu.au/wp-content/uploads/Annual-Report-2023-2024.pdf">ranzcog.edu.au</a>'],
@@ -538,7 +542,7 @@ table('t-sources',['Source','Feeds','Link'],[
  ['Australian postcodes and localities (M. Proctor)','Locality coordinates','<a href="https://github.com/matthewproctor/australianpostcodes">github.com</a>'],
  ['RANZCOG Annual Report 2022–23','Training units by locality (2022–23)','<a href="https://ranzcog.edu.au/wp-content/uploads/Annual-Report-2022-2023.pdf">ranzcog.edu.au</a>'],
  ['RANZCOG Media Kit','DRANZCOG holders','<a href="https://ranzcog.edu.au/wp-content/uploads/Media-Kit.pdf">ranzcog.edu.au</a>'],
- ['Australian O&G Supply and Demand Report, April 2026','O&G and urogynaecology FTE by MMM','<a href="https://hwd.health.gov.au/resources/primary/o&g-compendium-report-april-2026.pdf">hwd.health.gov.au</a>'],
+ ['Australian O&G Supply and Demand Report, April 2026','O&G FTE by MMM; subspecialty headcount, FTE and sector (Table 1); projections; travel for care','<a href="https://hwd.health.gov.au/resources/primary/o&g-compendium-report-april-2026.pdf">hwd.health.gov.au</a>'],
  ['RACGP Health of the Nation 2024','GP practice-area self-report','<a href="https://www.racgp.org.au/FSDEDEV/media/documents/Health-of-the-Nation-2024.pdf">racgp.org.au</a>'],
  ['Smith et al. 2010','Lifetime risk of first prolapse operation (19% by 85)','<a href="https://pubmed.ncbi.nlm.nih.gov/20966694/">pubmed.ncbi.nlm.nih.gov</a>'],
  ['Hals et al. 2010','Nordic multicentre severe-tear reduction','<a href="https://pubmed.ncbi.nlm.nih.gov/20567163/">pubmed.ncbi.nlm.nih.gov</a>'],
